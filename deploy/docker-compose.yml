@@ -6,5 +6,6 @@ services:
     volumes:
       - .:/infra
     working_dir: /infra
-    
+    environment:
+      - DIGITALOCEAN_TOKEN=${DIGITALOCEAN_TOKEN}
     
