@@ -18,7 +18,7 @@ Test and Lint:
   script:
     - echo "Test happens here"
   rules:
-    - if: "$CI_MERGE_REQUEST_TARGET_BRANCH_NAME =~ /^(master|production)$/ || $CI_COMMIT_BRANCH =~ /^(master|production)$/"
+    - if: "$CI_MERGE_REQUEST_TARGET_BRANCH_NAME =~ /^(main|production)$/ || $CI_COMMIT_BRANCH =~ /^(main|production)$/"
 
 sast:
   stage: Test and Lint
@@ -33,7 +33,7 @@ Validate Terraform:
     - terraform validate
     - terraform fmt -check
   rules:
-    - if: "$CI_MERGE_REQUEST_TARGET_BRANCH_NAME =~ /^(master|production)$/ || $CI_COMMIT_BRANCH =~ /^(master|production)$/"
+    - if: "$CI_MERGE_REQUEST_TARGET_BRANCH_NAME =~ /^(main|production)$/ || $CI_COMMIT_BRANCH =~ /^(main|production)$/"
 
 Build and Push:
   image: docker:20.10.8
@@ -49,4 +49,4 @@ Build and Push:
     - docker tag $CR_REPO:$CI_COMMIT_SHORT_SHA $CR_REPO:latest
     - docker push $CR_REPO:latest
   rules:
-    - if: "$CI_COMMIT_BRANCH =~ /^(master|production)$/"
+    - if: "$CI_COMMIT_BRANCH =~ /^(main|production)$/"
