@@ -44,7 +44,7 @@ Build and Push:
   script:
     - wget https://github.com/digitalocean/doctl/releases/download/v1.72.0/doctl-1.72.0-linux-amd64.tar.gz
     - tar xf ./doctl-1.72.0-linux-amd64.tar.gz
-    - sudo mv ~/doctl /usr/local/bin
+    - mv ~/doctl /usr/local/bin
     - doctl registry login -t $DIGITALOCEAN_TOKEN
     - docker build --compress -t $CR_REPO:$CI_COMMIT_SHORT_SHA .
     - docker push $CR_REPO:$CI_COMMIT_SHORT_SHA
