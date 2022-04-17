@@ -6,6 +6,7 @@ image:
 
 stages:
   - Test and Lint
+  - Build and Push
  
 
 Test and Lint:
