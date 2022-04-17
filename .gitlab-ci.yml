@@ -7,6 +7,18 @@ image:
 stages:
   - Test and Lint
  
+
+Test and Lint:
+  image: docker:20.10.8
+  services:
+    - name: docker:dind
+      command: ["--mtu=1300"]
+  stage: Test and Lint
+  script:
+    - echo "Test happens here"
+  rules:
+    - if: "$CI_MERGE_REQUEST_TARGET_BRANCH_NAME =~ /^(master|production)$/ || $CI_COMMIT_BRANCH =~ /^(master|production)$/"
+
 sast:
   stage: Test and Lint
 include:
@@ -22,3 +34,18 @@ Validate Terraform:
   rules:
     - if: "$CI_MERGE_REQUEST_TARGET_BRANCH_NAME =~ /^(master|production)$/ || $CI_COMMIT_BRANCH =~ /^(master|production)$/"
 
+Build and Push:
+  image: docker:20.10.8
+  services:
+    - name: docker:dind
+      command: ["--mtu=1300"]
+  stage: Build and Push
+  script:
+    - apk add --no-cache doctl
+    - doctl registry login -t $DIGITALOCEAN_TOKEN
+    - docker build --compress -t $CR_REPO:$CI_COMMIT_SHORT_SHA .
+    - docker push $CR_REPO:$CI_COMMIT_SHORT_SHA
+    - docker tag $CR_REPO:$CI_COMMIT_SHORT_SHA $CR_REPO:latest
+    - docker push $CR_REPO:latest
+  rules:
+    - if: "$CI_COMMIT_BRANCH =~ /^(master|production)$/"
