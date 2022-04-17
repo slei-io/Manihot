@@ -1,0 +1,11 @@
+version: "3.7"
+
+services:
+  terraform:
+    image: hashicorp/terraform:0.12.21
+    volumes:
+      - .:/infra
+    working_dir: /infra
+    environment:
+      - DIGITALOCEAN_TOKEN=${DIGITALOCEAN_TOKEN}
+    
