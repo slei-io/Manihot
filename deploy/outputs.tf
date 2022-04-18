@@ -5,3 +5,7 @@ output "repo_endpoint" {
 output "container_url" {
   value = digitalocean_app.app.live_url
 }
+
+output "container_default_ingress" {
+  value = digitalocean_app.app.default_ingress
+}

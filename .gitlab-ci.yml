@@ -7,8 +7,8 @@ image:
 stages:
   - Test and Lint
   - Build and Push
+  - Staging Plan
  
-
 Test and Lint:
   image: docker:20.10.8
   services:
@@ -52,3 +52,16 @@ Build and Push:
     - docker push $CR_REPO:latest
   rules:
     - if: "$CI_COMMIT_BRANCH =~ /^(main|production)$/"
+
+Staging Plan:
+  stage: Staging Plan
+  script:
+    - cd deploy/
+    - export TF_VAR_ecr_image_api=$ECR_REPO:$CI_COMMIT_SHORT_SHA
+    - terraform init 
+        \-backend-config="access_key=$TF_BACKEND_ACCESS_KEY" 
+        \ -backend-config="secret_key=TF_BACKEND_SECRET_KEY"
+    - terraform workspace select staging || terraform workspace new staging
+    - terraform plan
+  rules:
+    - if: "$CI_COMMIT_BRANCH =~ /^(master|production)$/"
