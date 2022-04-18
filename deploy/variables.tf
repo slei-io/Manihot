@@ -13,3 +13,7 @@ variable "app_instance_size" {
 variable "app_name" {
   default = "app"
 }
+
+variable "image_tag" {
+  default = latest
+}

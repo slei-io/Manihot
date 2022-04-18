@@ -12,7 +12,7 @@ resource "digitalocean_app" "app" {
       image {
         registry_type = "DOCR"
         repository    = var.app_name
-        tag           = "latest"
+        tag           = var.image_tag
       }
     }
   }
