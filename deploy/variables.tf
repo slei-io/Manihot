@@ -2,7 +2,7 @@ variable "prefix" {
   default = "manihot"
 }
 
-variable "region" {
+variable "app_region" {
   default = "nyc3"
 }
 
