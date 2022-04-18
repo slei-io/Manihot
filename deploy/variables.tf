@@ -15,5 +15,5 @@ variable "app_name" {
 }
 
 variable "image_tag" {
-  default = latest
+  default = "latest"
 }
