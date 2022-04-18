@@ -21,5 +21,5 @@ data "digitalocean_ssh_key" "master_key" {
 }
 
 locals {
-  prefix = "${var.prefix}-${terraform.workspace}"
+  prefix = "${terraform.workspace}-${var.prefix}"
 }
