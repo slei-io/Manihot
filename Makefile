@@ -1,3 +1,5 @@
+CONTAINER ?= manihot
+
 .PHONY: tf-init
 tf-init:
 	docker-compose -f deploy/docker-compose.yml run --rm terraform init
@@ -37,3 +39,6 @@ tf-workspace-staging:
 .PHONY: tf-workspace-prod
 tf-workspace-prod:
 	docker-compose -f deploy/docker-compose.yml run --rm terraform workspace select prod
+
+shell :
+	docker exec -ti $(CONTAINER) /bin/sh
