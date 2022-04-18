@@ -1,7 +1,7 @@
 resource "digitalocean_app" "app" {
   spec {
     name   = "${local.prefix}-consumer"
-    region = var.region
+    region = var.app_region
 
     service {
       name               = "${local.prefix}-consumer"
