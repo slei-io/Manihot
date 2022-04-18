@@ -64,4 +64,4 @@ Staging Plan:
     - terraform workspace select staging || terraform workspace new staging
     - terraform plan
   rules:
-    - if: "$CI_COMMIT_BRANCH =~ /^(master|production)$/"
+    - if: "$CI_COMMIT_BRANCH =~ /^(main|production)$/"
