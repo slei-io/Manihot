@@ -58,10 +58,18 @@ Staging Plan:
   script:
     - cd deploy/
     - export TF_VAR_ecr_image_api=$ECR_REPO:$CI_COMMIT_SHORT_SHA
-    - terraform init 
-        \-backend-config="access_key=$TF_BACKEND_ACCESS_KEY" 
-        \ -backend-config="secret_key=TF_BACKEND_SECRET_KEY"
+    - terraform init -backend-config="access_key=$TF_BACKEND_ACCESS_KEY" -backend-config="secret_key=TF_BACKEND_SECRET_KEY"
     - terraform workspace select staging || terraform workspace new staging
     - terraform plan
+  rules:
+    - if: "$CI_COMMIT_BRANCH =~ /^(main|production)$/"
+
+Staging Apply:
+  stage: Staging Apply
+  script:
+    - cd deploy/
+    - terraform init -backend-config="access_key=$TF_BACKEND_ACCESS_KEY" -backend-config="secret_key=TF_BACKEND_SECRET_KEY"
+    - terraform workspace select staging
+    - terraform apply -auto-approve
   rules:
     - if: "$CI_COMMIT_BRANCH =~ /^(main|production)$/"
