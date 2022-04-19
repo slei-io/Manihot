@@ -9,3 +9,7 @@ output "container_url" {
 output "container_default_ingress" {
   value = digitalocean_app.app.default_ingress
 }
+
+output "deployed_tag" {
+  value = var.image_tag
+}
