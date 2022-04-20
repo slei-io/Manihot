@@ -8,6 +8,7 @@ api = Api(app)
 
 class HelloWorld (Resource):
     def post(self):
+        print(request.get_json())
         return ({"data": request.get_json()}, 201)
 
 
