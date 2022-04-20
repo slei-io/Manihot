@@ -2,6 +2,8 @@ from flask import request
 from flask_restful import Resource
 from threading import Thread
 from config import app
+from os import environ
+import requests as res
 
 
 class ConsumerView(Resource):
@@ -16,3 +18,21 @@ class ConsumerView(Resource):
 
     def task(self, data):
         app.logger.info(data)
+
+
+class HttpGatewayConsumerView(ConsumerView):
+    def get_write_url(self):
+        environ.get('DATA_WRITE_URL')
+
+    def get_token(self):
+        environ.get('DATA_WRITE_TOKEN')
+
+    def get_headers(self):
+        token = self.get_token
+        return {'Authorization': f'Token {token}'},
+
+    def task(self, data):
+        url = self.get_write_url
+        headers = self.get_headers()
+        res.post(url, data=data, headers=headers)
+        return super().task(data)
