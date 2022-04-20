@@ -1,16 +1,10 @@
-from distutils.log import debug
-from flask import Flask
-from flask_restful import Api
 from core.consumerView import ConsumerView
-from time import sleep
-
-app = Flask(__name__)
-api = Api(app)
+from config import app, api
 
 
 class Main (ConsumerView):
     def task(self, data):
-        app.logger.info(data)
+        app.logger.info(__name__)
         return super().task(data)
 
 
