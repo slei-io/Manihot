@@ -1,12 +1,5 @@
-from core.consumerView import ConsumerView
 from config import app, api
-
-
-class Main (ConsumerView):
-    def task(self, data):
-        app.logger.info(__name__)
-        return super().task(data)
-
+from views import Main
 
 api.add_resource(Main, "/")
 

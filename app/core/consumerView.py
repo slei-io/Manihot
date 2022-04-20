@@ -1,9 +1,7 @@
-
-
-from concurrent.futures import thread
 from flask import request
 from flask_restful import Resource
 from threading import Thread
+from config import app
 
 
 class ConsumerView(Resource):
@@ -17,5 +15,4 @@ class ConsumerView(Resource):
         return data
 
     def task(self, data):
-        # log data
-        pass
+        app.logger.info(data)
