@@ -1,13 +1,10 @@
 from distutils.log import debug
 from flask import Flask, request
 from flask_restful import Api, Resource
-import logging
-import json
+
 
 app = Flask(__name__)
 api = Api(app)
-
-logging.basicConfig(filename='record.log', level=logging.DEBUG, format=f'%(message)s')
 
 
 class HelloWorld (Resource):
