@@ -31,5 +31,33 @@ override.tf.json
 # example: *tfplan*
 
 # End of https://www.gitignore.io/api/python,terraform
-.vscode
+
+*.log
+
+# https://github.com/pallets/flask/blob/main/.gitignore
+DS_Store
 .env
+.flaskenv
+*.pyc
+*.pyo
+env/
+venv/
+.venv/
+env*
+dist/
+build/
+*.egg
+*.egg-info/
+_mailinglist
+.tox/
+.cache/
+.pytest_cache/
+.idea/
+docs/_build/
+.vscode
+
+# Coverage reports
+htmlcov/
+.coverage
+.coverage.*
+*,cover
