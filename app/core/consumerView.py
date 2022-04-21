@@ -22,17 +22,20 @@ class ConsumerView(Resource):
 
 class HttpGatewayConsumerView(ConsumerView):
     def get_write_url(self):
-        environ.get('DATA_WRITE_URL')
+        return environ.get('DATA_WRITE_URL')
 
     def get_token(self):
-        environ.get('DATA_WRITE_TOKEN')
+        return environ.get('DATA_WRITE_TOKEN')
 
     def get_headers(self):
-        token = self.get_token
-        return {'Authorization': f'Token {token}'},
+        token = self.get_token()
+        return {'Authorization': f'Token {token}'}
 
     def task(self, data):
-        url = self.get_write_url
+        url = self.get_write_url()
         headers = self.get_headers()
-        res.post(url, data=data, headers=headers)
-        return super().task(data)
+        response = res.post(url, data=data, headers=headers)
+        self.log(data=data, response=response)
+
+    def log(self, data, response):
+        app.logger.info(f'{response.status_code} - {data}')

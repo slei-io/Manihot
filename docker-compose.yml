@@ -5,6 +5,10 @@ services:
     build:
       context: .
     container_name: manihot
+    environment:
+      - DATA_WRITE_URL=${DATA_WRITE_URL}
+      - DATA_WRITE_TOKEN=${DATA_WRITE_TOKEN}
+      - APP_SECRET=${APP_SECRET}
     ports:
       - "80:80"
     volumes:
