@@ -9,6 +9,7 @@ stages:
   - Build and Push
   - Staging Plan
   - Staging Apply
+  - Staging Destroy
  
 Test and Lint:
   image: docker:20.10.8
