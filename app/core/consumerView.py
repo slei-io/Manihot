@@ -1,17 +1,30 @@
+import imp
 from flask import request
 from flask_restful import Resource
 from threading import Thread
 from config import app
 from os import environ
 import requests as res
+from http import HTTPStatus
 
 
 class ConsumerView(Resource):
+    default_success_code = HTTPStatus.ACCEPTED
+
     def post(self):
         data = self.serialize(request.get_json())
-        thread = Thread(target=self.task, args=[data], daemon=True)
+        thread = Thread(target=self._try_task, args=[data], daemon=True)
         thread.start()
-        return data, 201
+        return data, self.default_success_code
+
+    def _try_task(self, data):
+        try:
+            self.task(data)
+        except Exception as err:
+            self.set_task_error(data, err)
+
+    def set_task_error(self, data, err):
+        app.logger.error(f'{err}, when running task on: {data}')
 
     def serialize(self, data):
         return data
