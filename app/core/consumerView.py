@@ -25,7 +25,7 @@ class ConsumerView(Resource):
         return self.get_payload(data), self.default_success_code
 
     def get_payload(self, data):
-        return self.get_serializer(data).get_data()
+        return data
 
     def _try_task(self, data):
         try:
@@ -37,7 +37,7 @@ class ConsumerView(Resource):
         app.logger.error(f'{err}, when running task on: {data}')
 
     def serialize(self, data):
-        return data
+        return self.get_serializer(data).get_data()
 
     def task(self, data):
         app.logger.info(data)
