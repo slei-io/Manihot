@@ -14,18 +14,18 @@ class ConsumerView(Resource):
         data = self.serialize(request.get_json())
         thread = Thread(target=self._try_task, args=[data], daemon=True)
         thread.start()
-        return self.set_payload(data), self.default_success_code
+        return self.get_payload(data), self.default_success_code
 
-    def set_payload(self, data):
+    def get_payload(self, data):
         return data
 
     def _try_task(self, data):
         try:
             self.task(data)
         except Exception as err:
-            self.set_task_error(err, data)
+            self.save_task_error(err, data)
 
-    def set_task_error(self, err, data):
+    def save_task_error(self, err, data):
         app.logger.error(f'{err}, when running task on: {data}')
 
     def serialize(self, data):
