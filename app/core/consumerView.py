@@ -1,6 +1,7 @@
 from flask import request
 from flask_restful import Resource
 from threading import Thread
+from core.serializers import Serializer
 from core.manihot import app
 from os import environ
 import requests as res
@@ -10,6 +11,13 @@ from http import HTTPStatus
 class ConsumerView(Resource):
     default_success_code = HTTPStatus.ACCEPTED
 
+    def get_serializer_class(self):
+        return Serializer
+
+    def get_serializer(self, data):
+        serializer_class = self.get_serializer_class()
+        return serializer_class(data=data)
+
     def post(self):
         data = self.serialize(request.get_json())
         thread = Thread(target=self._try_task, args=[data], daemon=True)
@@ -17,7 +25,7 @@ class ConsumerView(Resource):
         return self.get_payload(data), self.default_success_code
 
     def get_payload(self, data):
-        return data
+        return self.get_serializer(data).get_data()
 
     def _try_task(self, data):
         try:
