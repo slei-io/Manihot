@@ -78,7 +78,7 @@ Staging Apply:
     - if: "$CI_COMMIT_BRANCH =~ /^(main|production)$/"
 
 Staging Destroy:
-  stage: Destroy
+  stage: Staging Destroy
   script:
     - cd deploy/
     - terraform init -backend-config="access_key=$TF_BACKEND_ACCESS_KEY" -backend-config="secret_key=$TF_BACKEND_SECRET_KEY" -backend-config="endpoint=$TF_BACKEND_ENDPOINT" -backend-config="bucket=$TF_BACKEND_BUCKET"
