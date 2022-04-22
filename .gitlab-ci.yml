@@ -75,3 +75,14 @@ Staging Apply:
     - terraform apply -auto-approve
   rules:
     - if: "$CI_COMMIT_BRANCH =~ /^(main|production)$/"
+
+Staging Destroy:
+  stage: Destroy
+  script:
+    - cd deploy/
+    - terraform init -backend-config="access_key=$TF_BACKEND_ACCESS_KEY" -backend-config="secret_key=$TF_BACKEND_SECRET_KEY" -backend-config="endpoint=$TF_BACKEND_ENDPOINT" -backend-config="bucket=$TF_BACKEND_BUCKET"
+    - terraform workspace select staging
+    - terraform destroy -auto-approve
+  rules:
+    - if: "$CI_COMMIT_BRANCH =~ /^(main|production)$/"
+      when: manual
