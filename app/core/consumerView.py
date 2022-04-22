@@ -15,7 +15,10 @@ class ConsumerView(Resource):
         data = self.serialize(request.get_json())
         thread = Thread(target=self._try_task, args=[data], daemon=True)
         thread.start()
-        return data, self.default_success_code
+        return self.set_payload(data), self.default_success_code
+
+    def set_payload(self, data):
+        return data
 
     def _try_task(self, data):
         try:
