@@ -4,5 +4,5 @@ from core.consumerView import ConsumerView
 
 class Main (ConsumerView):
     def task(self, data):
-        sleep(10)
+        sleep(5)
         return super().task(data)

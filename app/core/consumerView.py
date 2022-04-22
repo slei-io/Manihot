@@ -1,8 +1,7 @@
-import imp
 from flask import request
 from flask_restful import Resource
 from threading import Thread
-from config import app
+from core.manihot import app
 from os import environ
 import requests as res
 from http import HTTPStatus
@@ -24,9 +23,9 @@ class ConsumerView(Resource):
         try:
             self.task(data)
         except Exception as err:
-            self.set_task_error(data, err)
+            self.set_task_error(err, data)
 
-    def set_task_error(self, data, err):
+    def set_task_error(self, err, data):
         app.logger.error(f'{err}, when running task on: {data}')
 
     def serialize(self, data):

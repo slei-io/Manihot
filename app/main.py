@@ -1,4 +1,4 @@
-from config import app, api
+from core.manihot import app, api
 from views import Main
 
 api.add_resource(Main, "/")
