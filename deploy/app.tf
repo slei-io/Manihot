@@ -15,5 +15,22 @@ resource "digitalocean_app" "app" {
         tag           = var.image_tag
       }
     }
+    env {
+      key   = "DATA_WRITE_URL"
+      value = var.data_write_url
+      type  = "SECRET"
+    }
+
+    env {
+      key   = "DATA_WRITE_TOKEN"
+      value = var.data_write_token
+      type  = "SECRET"
+    }
+
+    env {
+      key   = "APP_SECRET"
+      value = var.app_secret
+      type  = "SECRET"
+    }
   }
 }

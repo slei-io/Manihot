@@ -17,3 +17,9 @@ variable "app_name" {
 variable "image_tag" {
   default = "latest"
 }
+
+variable "data_write_url" {}
+
+variable "data_write_token" {}
+
+variable "app_secret" {}
