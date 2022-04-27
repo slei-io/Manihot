@@ -1,3 +1,4 @@
+import errno
 from flask import request
 from flask_restful import Resource
 from threading import Thread
@@ -19,10 +20,13 @@ class ConsumerView(Resource):
         return serializer_class(data=data)
 
     def post(self):
-        data = self.serialize(request.get_json())
-        thread = Thread(target=self._try_task, args=[data], daemon=True)
-        thread.start()
-        return self.get_payload(data), self.default_success_code
+        try:
+            data = self.serialize(request.get_json())
+            thread = Thread(target=self._try_task, args=[data], daemon=True)
+            thread.start()
+            return self.get_payload(data), self.default_success_code
+        except Exception as err:
+            return {"error": str(err)}, HTTPStatus.BAD_REQUEST
 
     def get_payload(self, data):
         return data
