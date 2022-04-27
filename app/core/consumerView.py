@@ -27,7 +27,7 @@ class ConsumerView(Resource):
             thread.start()
             return self.get_payload(data), self.default_success_code
         except SerializerError as err:
-            return {"error": str(err)}, err.code
+            return {"error": str(err)}, err.status_code
 
     def get_payload(self, data):
         return data
