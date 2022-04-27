@@ -2,6 +2,7 @@ import errno
 from flask import request
 from flask_restful import Resource
 from threading import Thread
+from core.exceptions import SerializerError
 from core.serializers import Serializer
 from core.manihot import app
 from os import environ
@@ -25,8 +26,8 @@ class ConsumerView(Resource):
             thread = Thread(target=self._try_task, args=[data], daemon=True)
             thread.start()
             return self.get_payload(data), self.default_success_code
-        except Exception as err:
-            return {"error": str(err)}, HTTPStatus.BAD_REQUEST
+        except SerializerError as err:
+            return {"error": str(err)}, err.code
 
     def get_payload(self, data):
         return data
@@ -38,7 +39,7 @@ class ConsumerView(Resource):
             self.save_task_error(err, data)
 
     def save_task_error(self, err, data):
-        app.logger.error(f'{err}, when running task on: {data}')
+        app.logger.error(f'{str(err)}, when running task on: {data}')
 
     def serialize(self, data):
         return self.get_serializer(data).get_data()
