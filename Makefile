@@ -40,5 +40,10 @@ tf-workspace-staging:
 tf-workspace-prod:
 	docker-compose -f deploy/docker-compose.yml run --rm terraform workspace select prod
 
+.PHONY: shell
 shell :
 	docker exec -ti $(CONTAINER) /bin/sh
+
+.PHONY: test
+test :
+	docker-compose run --rm app sh -c "python -m unittest && flake8"
