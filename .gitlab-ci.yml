@@ -19,7 +19,7 @@ Test and Lint:
   stage: Test and Lint
   script:
     - apk add --update docker-compose
-    - make test
+    - docker-compose run --rm app sh -c "python -m unittest && flake8"
   rules:
     - if: "$CI_MERGE_REQUEST_TARGET_BRANCH_NAME =~ /^(main|production)$/ || $CI_COMMIT_BRANCH =~ /^(main|production)$/"
 
