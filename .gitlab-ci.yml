@@ -18,7 +18,8 @@ Test and Lint:
       command: ["--mtu=1300"]
   stage: Test and Lint
   script:
-    - echo "Test happens here"
+    - apk add --update docker-compose
+    - make test
   rules:
     - if: "$CI_MERGE_REQUEST_TARGET_BRANCH_NAME =~ /^(main|production)$/ || $CI_COMMIT_BRANCH =~ /^(main|production)$/"
 
